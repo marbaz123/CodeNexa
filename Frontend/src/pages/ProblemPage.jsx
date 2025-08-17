@@ -8,17 +8,21 @@ import ChatAi from '../components/ChatAi';
 import Editorial from '../components/Editorial';
 
 const langMap = {
-        cpp: 'C++',
-        java: 'Java',
-        javascript: 'JavaScript'
+  c:'C',
+  cpp: 'C++',
+  java: 'Java',
+  javascript: 'JavaScript',
+  python: 'Python'
 };
 
 
 const ProblemPage = () => {
   const [problem, setProblem] = useState(null);
-  const [selectedLanguage, setSelectedLanguage] = useState('javascript');
+  const [selectedLanguage, setSelectedLanguage] = useState('cpp');
   const [code, setCode] = useState('');
   const [loading, setLoading] = useState(false);
+  const [runLoading, setRunLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
   const [runResult, setRunResult] = useState(null);
   const [submitResult, setSubmitResult] = useState(null);
   const [activeLeftTab, setActiveLeftTab] = useState('description');
@@ -36,7 +40,6 @@ const ProblemPage = () => {
       try {
         
         const response = await axiosClient.get(`/problem/problemById/${problemId}`);
-       
         
         const initialCode = response.data.startCode.find(sc => sc.language === langMap[selectedLanguage]).initialCode;
 
@@ -75,7 +78,7 @@ const ProblemPage = () => {
   };
 
   const handleRun = async () => {
-    setLoading(true);
+    setRunLoading(true);
     setRunResult(null);
     
     try {
@@ -85,7 +88,7 @@ const ProblemPage = () => {
       });
 
       setRunResult(response.data);
-      setLoading(false);
+      setRunLoading(false);
       setActiveRightTab('testcase');
       
     } catch (error) {
@@ -94,13 +97,13 @@ const ProblemPage = () => {
         success: false,
         error: 'Internal server error'
       });
-      setLoading(false);
+      setRunLoading(false);
       setActiveRightTab('testcase');
     }
   };
 
   const handleSubmitCode = async () => {
-    setLoading(true);
+    setSubmitLoading(true);
     setSubmitResult(null);
     
     try {
@@ -110,13 +113,13 @@ const ProblemPage = () => {
       });
 
        setSubmitResult(response.data);
-       setLoading(false);
+       setSubmitLoading(false);
        setActiveRightTab('result');
       
     } catch (error) {
       console.error('Error submitting code:', error);
       setSubmitResult(null);
-      setLoading(false);
+      setSubmitLoading(false);
       setActiveRightTab('result');
     }
   };
@@ -124,9 +127,11 @@ const ProblemPage = () => {
   const getLanguageForMonaco = (lang) => {
     switch (lang) {
       case 'javascript': return 'javascript';
+      case 'c': return 'c';
+      case 'python': return 'python';
       case 'java': return 'java';
       case 'cpp': return 'cpp';
-      default: return 'javascript';
+      default: return 'cpp';
     }
   };
 
@@ -308,13 +313,13 @@ const ProblemPage = () => {
               {/* Language Selector */}
               <div className="flex justify-between items-center p-4 border-b border-base-300">
                 <div className="flex gap-2">
-                  {['javascript', 'java', 'cpp'].map((lang) => (
+                  {['c','cpp','java','javascript','python'].map((lang) => (
                     <button
                       key={lang}
                       className={`btn btn-sm ${selectedLanguage === lang ? 'btn-primary' : 'btn-ghost'}`}
                       onClick={() => handleLanguageChange(lang)}
                     >
-                      {lang === 'cpp' ? 'C++' : lang === 'javascript' ? 'JavaScript' : 'Java'}
+                      {lang === 'c' ? 'C' :lang === 'cpp' ? 'C++' : lang === 'javascript' ? 'JavaScript':lang === 'python' ? 'Python' : 'Java'}
                     </button>
                   ))}
                 </div>
@@ -364,16 +369,16 @@ const ProblemPage = () => {
                 </div>
                 <div className="flex gap-2">
                   <button
-                    className={`btn btn-outline btn-sm ${loading ? 'loading' : ''}`}
+                    className={`btn btn-outline btn-sm ${runLoading ? 'loading' : ''}`}
                     onClick={handleRun}
-                    disabled={loading}
+                    disabled={runLoading || submitLoading}
                   >
                     Run
                   </button>
                   <button
-                    className={`btn btn-primary btn-sm ${loading ? 'loading' : ''}`}
+                    className={`btn btn-primary btn-sm ${submitLoading ? 'loading' : ''}`}
                     onClick={handleSubmitCode}
-                    disabled={loading}
+                    disabled={runLoading || submitLoading}
                   >
                     Submit
                   </button>
