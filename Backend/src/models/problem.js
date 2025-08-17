@@ -17,7 +17,7 @@ const problemSchema = new Schema({
     },
     tags:{
         type:String,
-        enum:['array','linkedList','graph','dp'],
+        enum:['Array','Math','Prefix Sum','Binary Search','Sorting','Divide and Conquer','Greedy','String','Stack','Linked List','Graph','Depth-First Search','Dynamic Programming'],
         required:true
     },
     visibleTestCases:[
