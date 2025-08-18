@@ -131,6 +131,7 @@ const ProblemPage = () => {
       case 'python': return 'python';
       case 'java': return 'java';
       case 'cpp': return 'cpp';
+      case 'c++': return 'cpp';
       default: return 'cpp';
     }
   };
