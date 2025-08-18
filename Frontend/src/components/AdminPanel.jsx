@@ -9,7 +9,7 @@ const problemSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   description: z.string().min(1, 'Description is required'),
   difficulty: z.enum(['easy', 'medium', 'hard']),
-  tags: z.enum(['array', 'linkedList', 'graph', 'dp']),
+  tags: z.enum(['Array','Math','Prefix Sum','Binary Search','Sorting','Divide and Conquer','Greedy','String','Stack','Linked List','Graph','Depth-First Search','Dynamic Programming']),
   visibleTestCases: z.array(
     z.object({
       input: z.string().min(1, 'Input is required'),
@@ -25,16 +25,16 @@ const problemSchema = z.object({
   ).min(1, 'At least one hidden test case required'),
   startCode: z.array(
     z.object({
-      language: z.enum(['C++', 'Java', 'JavaScript']),
+      language: z.enum(['C','Python','C++', 'Java', 'JavaScript']),
       initialCode: z.string().min(1, 'Initial code is required')
     })
-  ).length(3, 'All three languages required'),
+  ).length(5, 'All three languages required'),
   referenceSolution: z.array(
     z.object({
-      language: z.enum(['C++', 'Java', 'JavaScript']),
+      language: z.enum(['C','Python','C++', 'Java', 'JavaScript']),
       completeCode: z.string().min(1, 'Complete code is required')
     })
-  ).length(3, 'All three languages required')
+  ).length(5, 'All three languages required')
 });
 
 function AdminPanel() {
@@ -48,14 +48,18 @@ function AdminPanel() {
     resolver: zodResolver(problemSchema),
     defaultValues: {
       startCode: [
+        { language: 'C', initialCode: '' },
         { language: 'C++', initialCode: '' },
+        { language: 'Python', initialCode: '' },
         { language: 'Java', initialCode: '' },
         { language: 'JavaScript', initialCode: '' }
       ],
       referenceSolution: [
-        { language: 'C++', completeCode: '' },
-        { language: 'Java', completeCode: '' },
-        { language: 'JavaScript', completeCode: '' }
+        { language: 'C', initialCode: '' },
+        { language: 'C++', initialCode: '' },
+        { language: 'Python', initialCode: '' },
+        { language: 'Java', initialCode: '' },
+        { language: 'JavaScript', initialCode: '' }
       ]
     }
   });
@@ -146,10 +150,20 @@ function AdminPanel() {
                   {...register('tags')}
                   className={`select select-bordered ${errors.tags && 'select-error'}`}
                 >
-                  <option value="array">Array</option>
-                  <option value="linkedList">Linked List</option>
-                  <option value="graph">Graph</option>
-                  <option value="dp">DP</option>
+                  <option value="Array">Array</option>
+                  <option value="String">String</option>
+                  <option value="Math">Math</option>
+                  <option value="Sorting">Sorting</option>
+                  <option value="Prefix Sum">Prefix Sum</option>
+                  <option value="Binary Search">Binary Search</option>
+                  <option value="Divide and Conquer">Divide and Conquer</option>
+                  <option value="Linked List">Linked List</option>
+                  <option value="Stack">Stack</option>
+                  <option value="Queue">Queue</option>
+                  <option value="Greedy">Greedy</option>
+                  <option value="Graph">Graph</option>
+                  <option value="Depth-First Search">Depth-First Search</option>
+                  <option value="Dynamic Programming">Dynamic Programming</option>
                 </select>
               </div>
             </div>
@@ -252,10 +266,10 @@ function AdminPanel() {
           <h2 className="text-xl font-semibold mb-4">Code Templates</h2>
           
           <div className="space-y-6">
-            {[0, 1, 2].map((index) => (
+            {[0, 1, 2, 3, 4].map((index) => (
               <div key={index} className="space-y-2">
                 <h3 className="font-medium">
-                  {index === 0 ? 'C++' : index === 1 ? 'Java' : 'JavaScript'}
+                  {index === 0 ? 'C' : index === 1 ? 'C++': index === 2 ? 'Python': index === 3 ? 'Java' : 'JavaScript'}
                 </h3>
                 
                 <div className="form-control">
@@ -288,9 +302,11 @@ function AdminPanel() {
           </div>
         </div>
 
-        <button type="submit" className="btn btn-primary w-full">
-          Create Problem
-        </button>
+        <div className='flex justify-center align-middle'>
+          <button type="submit" className="btn btn-primary">
+            Create Problem
+          </button>
+        </div>
       </form>
     </div>
   );

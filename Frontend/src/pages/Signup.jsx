@@ -16,7 +16,7 @@ function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { isAuthenticated, loading } = useSelector((state) => state.auth); // Removed error as it wasn't used
+  const { isAuthenticated, loading } = useSelector((state) => state.auth);
 
   const {
     register,
@@ -35,20 +35,21 @@ function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-base-200"> {/* Added a light bg for contrast */}
-      <div className="card w-96 bg-base-100 shadow-xl">
-        <div className="card-body">
-          <h2 className="card-title justify-center text-3xl mb-6">Leetcode</h2> {/* Added mb-6 for spacing */}
+    <div className="min-h-screen flex items-center justify-center p-4 bg-black">
+      <div className="card w-96 bg-neutral text-neutral-content shadow-xl">
+        <div className="card-body text-accent">
+          <h2 className="card-title justify-center text-3xl mb-6">Leetcode</h2>
+
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* First Name Field */}
             <div className="form-control">
               <label className="label">
-                <span className="label-text">First Name</span>
+                <span className="label-text text-neutral-content">First Name</span>
               </label>
               <input
                 type="text"
                 placeholder="John"
-                className={`input input-bordered w-full ${errors.firstName ? 'input-error' : ''}`} 
+                className={`input input-bordered w-full bg-base-300 text-white ${errors.firstName ? 'input-error' : ''}`} 
                 {...register('firstName')}
               />
               {errors.firstName && (
@@ -59,12 +60,12 @@ function Signup() {
             {/* Email Field */}
             <div className="form-control mt-4">
               <label className="label">
-                <span className="label-text">Email</span>
+                <span className="label-text text-neutral-content">Email</span>
               </label>
               <input
                 type="email"
                 placeholder="john@example.com"
-                className={`input input-bordered w-full ${errors.emailId ? 'input-error' : ''}`} // Ensure w-full for consistency
+                className={`input input-bordered w-full bg-base-300 text-white ${errors.emailId ? 'input-error' : ''}`} 
                 {...register('emailId')}
               />
               {errors.emailId && (
@@ -75,21 +76,20 @@ function Signup() {
             {/* Password Field with Toggle */}
             <div className="form-control mt-4">
               <label className="label">
-                <span className="label-text">Password</span>
+                <span className="label-text text-neutral-content">Password</span>
               </label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
-                  // Added pr-10 (padding-right) to make space for the button
-                  className={`input input-bordered w-full pr-10 ${errors.password ? 'input-error' : ''}`}
+                  className={`input input-bordered w-full pr-10 bg-base-300 text-white ${errors.password ? 'input-error' : ''}`}
                   {...register('password')}
                 />
                 <button
                   type="button"
-                  className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 hover:text-gray-700" // Added transform for better centering, styling
+                  className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400 hover:text-white"
                   onClick={() => setShowPassword(!showPassword)}
-                  aria-label={showPassword ? "Hide password" : "Show password"} // Accessibility
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -112,7 +112,7 @@ function Signup() {
             <div className="form-control mt-8 flex justify-center"> 
               <button
                 type="submit"
-                className={`btn btn-primary ${loading ? 'loading' : ''}`}
+                className={`btn btn-accent btn-outline ${loading ? 'loading' : ''}`}
                 disabled={loading}
               >
                 {loading ? 'Signing Up...' : 'Sign Up'}
@@ -121,7 +121,7 @@ function Signup() {
           </form>
 
           {/* Login Redirect */}
-          <div className="text-center mt-6"> {/* Increased mt for spacing */}
+          <div className="text-center mt-6">
             <span className="text-sm">
               Already have an account?{' '}
               <NavLink to="/login" className="link link-primary">

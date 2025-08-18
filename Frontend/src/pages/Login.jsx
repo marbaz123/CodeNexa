@@ -6,7 +6,6 @@ import { useNavigate, NavLink } from 'react-router';
 import { loginUser } from "../authSlice";
 import { useEffect, useState } from 'react';
 
-
 const loginSchema = z.object({
   emailId: z.string().email("Invalid Email"),
   password: z.string().min(8, "Password is too weak") 
@@ -21,7 +20,7 @@ function Login() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: zodResolver(loginSchema) }); // Using renamed schema
+  } = useForm({ resolver: zodResolver(loginSchema) });
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -34,21 +33,20 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-base-200"> {/* Added bg for contrast */}
-      <div className="card w-96 bg-base-100 shadow-xl">
-        <div className="card-body">
-          <h2 className="card-title justify-center text-3xl mb-6">Leetcode</h2> {/* Added mb-6 */}
+    <div className="min-h-screen flex items-center justify-center p-4 bg-black">
+      <div className="card w-96 bg-neutral text-neutral-content shadow-xl">
+        <div className="card-body text-accent">
+          <h2 className="card-title justify-center text-3xl mb-6">Leetcode</h2>
 
-          
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="form-control"> {/* Removed mt-4 from first form-control for tighter spacing to title or global error */}
-              <label className="label"> {/* Removed mb-1, default spacing should be fine */}
-                <span className="label-text">Email</span>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text text-neutral-content">Email</span>
               </label>
               <input
                 type="email"
                 placeholder="john@example.com"
-                className={`input input-bordered w-full ${errors.emailId ? 'input-error' : ''}`} 
+                className={`input input-bordered w-full bg-base-300 text-white ${errors.emailId ? 'input-error' : ''}`} 
                 {...register('emailId')}
               />
               {errors.emailId && (
@@ -58,18 +56,18 @@ function Login() {
 
             <div className="form-control mt-4">
               <label className="label">
-                <span className="label-text">Password</span>
+                <span className="label-text text-neutral-content">Password</span>
               </label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
-                  className={`input input-bordered w-full pr-10 ${errors.password ? 'input-error' : ''}`}
+                  className={`input input-bordered w-full pr-10 bg-base-300 text-white ${errors.password ? 'input-error' : ''}`}
                   {...register('password')}
                 />
                 <button
                   type="button"
-                  className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400 hover:text-white"
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
@@ -93,7 +91,7 @@ function Login() {
             <div className="form-control mt-8 flex justify-center">
               <button
                 type="submit"
-                className={`btn btn-primary ${loading ? 'loading btn-disabled' : ''}`} // Added btn-disabled for better UX with loading
+                className={`btn btn-accent btn-outline ${loading ? 'loading btn-disabled' : ''}`}
                 disabled={loading}
               >
                 {loading ? (
@@ -105,9 +103,10 @@ function Login() {
               </button>
             </div>
           </form>
+
           <div className="text-center mt-6">
             <span className="text-sm">
-              Don't have an account?{' '} {/* Adjusted text slightly */}
+              Don't have an account?{' '}
               <NavLink to="/signup" className="link link-primary">
                 Sign Up
               </NavLink>

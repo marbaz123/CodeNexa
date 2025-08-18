@@ -154,7 +154,7 @@ const ProblemPage = () => {
   }
 
   return (
-    <div className="h-screen flex bg-base-100">
+    <div className="h-screen flex bg-black">
       {/* Left Panel */}
       <div className="w-1/2 flex flex-col border-r border-base-300">
         {/* Left Tabs */}
