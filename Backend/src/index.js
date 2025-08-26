@@ -19,11 +19,11 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/user',authRouter);
-app.use('/problem',problemRouter);
-app.use('/submission',submitRouter);
-app.use('/ai',aiRouter);
-app.use("/video",videoRouter);
+app.use('/api/user',authRouter);
+app.use('/api/problem',problemRouter);
+app.use('/api/submission',submitRouter);
+app.use('/api/ai',aiRouter);
+app.use("/api/video",videoRouter);
 
 app.get('/' ,(req,res)=>{
     res.send({
