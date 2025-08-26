@@ -12,10 +12,12 @@ const videoRouter = require("./routes/videoCreator");
 const cors = require('cors')
 const port = process.env.PORT || 3000;
 
+app.set("trust proxy", 1);
+
 app.use(cors({
-    origin: 'https://codenexa.onrender.com',
-    credentials: true 
-}))
+  origin: ['http://localhost:5173', 'https://codenexa.vercel.app'],
+  credentials: true
+}));
 
 app.use(express.json());
 app.use(cookieParser());
