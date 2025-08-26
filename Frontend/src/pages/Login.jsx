@@ -36,7 +36,7 @@ function Login() {
     <div className="min-h-screen flex items-center justify-center p-4 bg-black">
       <div className="card w-96 bg-neutral text-neutral-content shadow-xl">
         <div className="card-body text-accent">
-          <h2 className="card-title justify-center text-3xl mb-6">Leetcode</h2>
+          <h2 className="card-title justify-center text-3xl mb-6">CodeNexa</h2>
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-control">
