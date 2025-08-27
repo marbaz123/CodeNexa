@@ -38,7 +38,11 @@ const register = async (req,res)=>{
     })
     }
     catch(err){
-        res.status(400).send("Error: "+err);
+        console.log('Registration error:', err);
+        res.status(400).json({
+            error: true,
+            message: err.message || "Registration failed"
+        });
     }
 }
 
@@ -80,7 +84,11 @@ const login = async (req,res)=>{
         })
     }
     catch(err){
-        res.status(401).send("Error: "+err);
+        console.log('Login error:', err);
+        res.status(400).json({
+            error: true,
+            message: err.message || "Login failed"
+        });
     }
 }
 
@@ -104,7 +112,11 @@ const logout = async(req,res)=>{
 
     }
     catch(err){
-       res.status(503).send("Error: "+err);
+       console.log('Logout error:', err);
+        res.status(400).json({
+            error: true,
+            message: err.message || "Logout failed"
+        });
     }
 }
 
@@ -131,9 +143,32 @@ const adminRegister = async(req,res)=>{
      res.status(201).send("User Registered Successfully");
     }
     catch(err){
-        res.status(400).send("Error: "+err);
+        console.log('Admin Registration error:', err);
+        res.status(400).json({
+            error: true,
+            message: err.message || "Admin Registration failed"
+        });
     }
 }
+
+const checkAuth = async (req, res) => {
+    try {
+        res.status(200).json({
+            authenticated: true,
+            user: {
+                firstName: req.result.firstName,
+                emailId: req.result.emailId,
+                _id: req.result._id,
+                role: req.result.role
+            }
+        });
+    } catch (err) {
+        res.status(401).json({
+            authenticated: false,
+            message: "Not authenticated"
+        });
+    }
+};
 
 const deleteProfile = async(req,res)=>{
   
@@ -151,10 +186,9 @@ const deleteProfile = async(req,res)=>{
 
     }
     catch(err){
-      
         res.status(500).send("Internal Server Error");
     }
 }
 
 
-module.exports = {register, login,logout,adminRegister,deleteProfile};
+module.exports = {register, login,logout,adminRegister,deleteProfile,checkAuth};

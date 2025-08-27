@@ -14,13 +14,32 @@ const port = process.env.PORT || 3000;
 
 app.set("trust proxy", 1);
 
+// CORS configuration for Render
 app.use(cors({
-    origin: ['https://codenexa.onrender.com','http://localhost:5173/'],
-    credentials: true 
-}))
+    origin: ['https://codenexa.onrender.com'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Cookie'],
+    exposedHeaders: ['Set-Cookie']
+}));
+
+// Handle preflight requests explicitly
+app.options('*', cors({
+    origin: 'https://codenexa.onrender.com',
+    credentials: true
+}));
 
 app.use(express.json());
 app.use(cookieParser());
+
+// Debug middleware (remove in production)
+app.use((req, res, next) => {
+    if (req.path.includes('/user') || req.path.includes('/problem')) {
+        console.log(`${req.method} ${req.path} - Origin: ${req.headers.origin}`);
+        console.log('Cookies:', Object.keys(req.cookies));
+    }
+    next();
+});
 
 app.use('/user',authRouter);
 app.use('/problem',problemRouter);
@@ -29,29 +48,25 @@ app.use('/ai',aiRouter);
 app.use("/video",videoRouter);
 
 app.get('/' ,(req,res)=>{
-    res.send({
+    res.json({
         activeStatus:true,
         error:false,
     })
 })
 
-
 const InitalizeConnection = async ()=>{
     try{
-
         await Promise.all([main(),redisClient.connect()]);
         console.log("DB Connected");
         
         app.listen(port, ()=>{
             console.log("Server listening at port number: "+ port);
+            console.log("Environment:", process.env.NODE_ENV || 'development');
         })
-
     }
     catch(err){
         console.log("Error: "+err);
     }
 }
 
-
 InitalizeConnection();
-
