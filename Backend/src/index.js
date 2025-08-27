@@ -15,7 +15,7 @@ const port = process.env.PORT || 3000;
 app.set("trust proxy", 1);
 
 app.use(cors({
-    origin: 'https://codenexa.onrender.com',
+    origin: ['https://codenexa.onrender.com','http://localhost:5173/'],
     credentials: true 
 }))
 
